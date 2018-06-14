@@ -27,7 +27,7 @@ class GetClientTokenTest extends AbstractBackendController
     private $quoteSession;
 
     /**
-     * @var ObjectManager|MockObject $stubObjectManager
+     * @var ObjectManager|MockObject
      */
     private $stubObjectManager;
 

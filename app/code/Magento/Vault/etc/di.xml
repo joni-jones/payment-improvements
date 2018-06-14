@@ -15,6 +15,7 @@
     <preference for="Magento\Vault\Api\PaymentMethodListInterface" type="Magento\Vault\Model\PaymentMethodList" />
     <preference for="Magento\Vault\Api\Data\PaymentTokenSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Vault\Model\Ui\TokenUiComponentInterface" type="Magento\Vault\Model\Ui\TokenUiComponent" />
+    <preference for="Magento\Vault\Api\TokenDeleterInterface" type="Magento\Vault\Model\TokenDeleter" />
 
     <type name="Magento\Sales\Api\Data\OrderPaymentInterface">
         <plugin name="PaymentVaultExtensionAttributeOperations" type="Magento\Vault\Plugin\PaymentVaultAttributesLoad"/>

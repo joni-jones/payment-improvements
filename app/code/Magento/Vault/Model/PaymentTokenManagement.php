@@ -10,7 +10,6 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Intl\DateTimeFactory;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
-use Magento\Sales\Model\Order\Payment;
 use Magento\Vault\Api\Data;
 use Magento\Vault\Api\Data\PaymentTokenInterface;
 use Magento\Vault\Api\Data\PaymentTokenSearchResultsInterfaceFactory;
@@ -192,13 +191,9 @@ class PaymentTokenManagement implements PaymentTokenManagementInterface
     }
 
     /**
-     * Get payment token by public hash.
-     *
-     * @param string $hash Public hash.
-     * @param int $customerId Customer ID.
-     * @return PaymentTokenInterface|null Payment token interface.
+     * @inheritdoc
      */
-    public function getByPublicHash($hash, $customerId)
+    public function getByPublicHash(string $hash, ?int $customerId = null): ?PaymentTokenInterface
     {
         $tokenData = $this->paymentTokenResourceModel->getByPublicHash($hash, $customerId);
         $tokenModel = !empty($tokenData) ? $this->paymentTokenFactory->create(['data' => $tokenData]) : null;

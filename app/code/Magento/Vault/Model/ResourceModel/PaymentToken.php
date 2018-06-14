@@ -5,7 +5,6 @@
  */
 namespace Magento\Vault\Model\ResourceModel;
 
-use Magento\Vault\Setup\InstallSchema;
 use Magento\Framework\Model\ResourceModel\Db\VersionControl\AbstractDb;
 
 /**
@@ -86,8 +85,6 @@ class PaymentToken extends AbstractDb
             ->where('public_hash = ?', $hash);
         if ($customerId > 0) {
             $select = $select->where('customer_id = ?', $customerId);
-        } else {
-            $select = $select->where('customer_id IS NULL');
         }
         return $connection->fetchRow($select);
     }

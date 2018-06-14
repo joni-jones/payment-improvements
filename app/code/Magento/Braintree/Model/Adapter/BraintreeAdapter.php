@@ -8,14 +8,15 @@ namespace Magento\Braintree\Model\Adapter;
 use Braintree\ClientToken;
 use Braintree\Configuration;
 use Braintree\CreditCard;
+use Braintree\PaymentMethod;
 use Braintree\PaymentMethodNonce;
 use Braintree\Transaction;
 use Magento\Braintree\Gateway\Config\Config;
 use Magento\Braintree\Model\Adminhtml\Source\Environment;
+use Braintree\Result\Successful;
 
 /**
- * Class BraintreeAdapter
- * Use \Magento\Braintree\Model\Adapter\BraintreeAdapterFactory to create new instance of adapter.
+ * Use \Magento\Braintree\Model\Adapter\BraintreeAdapterFactory to create new instance of the adapter.
  * @codeCoverageIgnore
  */
 class BraintreeAdapter
@@ -181,10 +182,23 @@ class BraintreeAdapter
     }
 
     /**
+     * Deletes payment token.
+     *
+     * @param string $token
+     * @param array $options
+     * @return Successful
+     */
+    public function deleteToken(string $token, array $options = []): Successful
+    {
+        return PaymentMethod::delete($token, $options);
+    }
+
+    /**
      * Clone original transaction
      * @param string $transactionId
      * @param array $attributes
      * @return mixed
+     * @deprecated is not used
      */
     public function cloneTransaction($transactionId, array $attributes)
     {

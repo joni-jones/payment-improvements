@@ -3,6 +3,8 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
+declare(strict_types=1);
+
 namespace Magento\Vault\Api;
 
 use Magento\Sales\Api\Data\OrderPaymentInterface;
@@ -49,11 +51,11 @@ interface PaymentTokenManagementInterface
      * Get payment token by public hash.
      *
      * @param string $hash Public hash.
-     * @param int $customerId Customer ID.
+     * @param int|null $customerId Customer ID.
      * @return PaymentTokenInterface|null Payment token interface.
      * @since 100.1.0
      */
-    public function getByPublicHash($hash, $customerId);
+    public function getByPublicHash(string $hash, ?int $customerId = null): ?PaymentTokenInterface;
 
     /**
      * @param PaymentTokenInterface $token
