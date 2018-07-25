@@ -135,7 +135,7 @@
                 <item name="refund" xsi:type="string">BraintreeRefundCommand</item>
                 <item name="cancel" xsi:type="string">Magento\Braintree\Gateway\CancelCommand</item>
                 <item name="deny_payment" xsi:type="string">Magento\Braintree\Gateway\CancelCommand</item>
-                <item name="delete" xsi:type="string">Magento\Braintree\Command\DeleteToken</item>
+                <item name="delete_token" xsi:type="string">Magento\Braintree\Command\DeleteToken</item>
             </argument>
         </arguments>
     </virtualType>
@@ -152,7 +152,7 @@
                 <item name="void" xsi:type="string">BraintreeVoidCommand</item>
                 <item name="refund" xsi:type="string">BraintreeRefundCommand</item>
                 <item name="cancel" xsi:type="string">Magento\Braintree\Gateway\CancelCommand</item>
-                <item name="delete" xsi:type="string">Magento\Braintree\Command\DeleteToken</item>
+                <item name="delete_token" xsi:type="string">Magento\Braintree\Command\DeleteToken</item>
             </argument>
         </arguments>
     </virtualType>

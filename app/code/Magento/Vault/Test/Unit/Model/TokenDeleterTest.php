@@ -161,7 +161,7 @@ class TokenDeleterTest extends \PHPUnit\Framework\TestCase
             ->willReturn($storeId);
         $executor->method('executeByCode')
             ->with(
-                'delete',
+                'delete_token',
                 null,
                 [
                     'storeId' => $storeId,

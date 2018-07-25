@@ -81,7 +81,7 @@ class TokenDeleter implements TokenDeleterInterface
         }
 
         $commandExecutor->executeByCode(
-            'delete',
+            'delete_token',
             null,
             [
                 'paymentToken' => $paymentToken,
