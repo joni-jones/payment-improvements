@@ -193,7 +193,7 @@ class PaymentTokenManagement implements PaymentTokenManagementInterface
     /**
      * @inheritdoc
      */
-    public function getByPublicHash(string $hash, ?int $customerId = null): ?PaymentTokenInterface
+    public function getByPublicHash($hash, $customerId = null)
     {
         $tokenData = $this->paymentTokenResourceModel->getByPublicHash($hash, $customerId);
         $tokenModel = !empty($tokenData) ? $this->paymentTokenFactory->create(['data' => $tokenData]) : null;

@@ -55,7 +55,7 @@ interface PaymentTokenManagementInterface
      * @return PaymentTokenInterface|null Payment token interface.
      * @since 100.1.0
      */
-    public function getByPublicHash(string $hash, ?int $customerId = null): ?PaymentTokenInterface;
+    public function getByPublicHash($hash, $customerId = null);
 
     /**
      * @param PaymentTokenInterface $token

@@ -47,6 +47,13 @@ class TokenDeleter implements TokenDeleterInterface
      */
     private $resourceModel;
 
+    /**
+     * @param PaymentTokenManagementInterface $paymentTokenManagement
+     * @param CommandManagerPoolInterface $commandManagerPool
+     * @param StoreResolverInterface $storeResolver
+     * @param LoggerInterface $logger
+     * @param PaymentTokenResourceModel $resourceModel
+     */
     public function __construct(
         PaymentTokenManagementInterface $paymentTokenManagement,
         CommandManagerPoolInterface $commandManagerPool,
