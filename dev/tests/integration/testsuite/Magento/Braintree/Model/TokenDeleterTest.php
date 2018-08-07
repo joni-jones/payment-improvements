@@ -100,6 +100,6 @@ class TokenDeleterTest extends TestCase
     {
         /** @var PaymentTokenManagementInterface $tokenManagement */
         $tokenManagement = $this->objectManager->get(PaymentTokenManagementInterface::class);
-        return $tokenManagement->getByPublicHash($publicHash);
+        return $tokenManagement->getByPublicHash($publicHash, 0);
     }
 }

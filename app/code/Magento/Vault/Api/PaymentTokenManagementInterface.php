@@ -51,11 +51,11 @@ interface PaymentTokenManagementInterface
      * Get payment token by public hash.
      *
      * @param string $hash Public hash.
-     * @param int|null $customerId Customer ID.
+     * @param int $customerId Customer ID.
      * @return PaymentTokenInterface|null Payment token interface.
      * @since 100.1.0
      */
-    public function getByPublicHash($hash, $customerId = null);
+    public function getByPublicHash($hash, $customerId);
 
     /**
      * @param PaymentTokenInterface $token

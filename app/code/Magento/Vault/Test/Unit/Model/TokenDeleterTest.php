@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\Vault\Test\Unit\Model;
 
 use Magento\Framework\Exception\NotFoundException;
+use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Payment\Gateway\Command\CommandManagerInterface;
 use Magento\Payment\Gateway\Command\CommandManagerPoolInterface;
 use Magento\Store\Api\StoreResolverInterface;
@@ -43,6 +44,11 @@ class TokenDeleterTest extends \PHPUnit\Framework\TestCase
     private $resourceModel;
 
     /**
+     * @var LoggerInterface|MockObject
+     */
+    private $logger;
+
+    /**
      * @var TokenDeleter
      */
     private $model;
@@ -56,8 +62,7 @@ class TokenDeleterTest extends \PHPUnit\Framework\TestCase
         $this->commandManagerPool = $this->getMockForAbstractClass(CommandManagerPoolInterface::class);
         $this->storeResolver = $this->getMockForAbstractClass(StoreResolverInterface::class);
 
-        /** @var LoggerInterface|MockObject $logger */
-        $logger = $this->getMockForAbstractClass(LoggerInterface::class);
+        $this->logger = $this->getMockForAbstractClass(LoggerInterface::class);
         $this->resourceModel = $this->getMockBuilder(PaymentTokenResourceModel::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -66,7 +71,7 @@ class TokenDeleterTest extends \PHPUnit\Framework\TestCase
             $this->paymentTokenManagement,
             $this->commandManagerPool,
             $this->storeResolver,
-            $logger,
+            $this->logger,
             $this->resourceModel
         );
     }
@@ -135,6 +140,35 @@ class TokenDeleterTest extends \PHPUnit\Framework\TestCase
             ->willThrowException(new \Exception('Something wrong.'));
         $executor->expects(self::never())
             ->method('executeByCode');
+
+        $this->model->execute(self::$hash);
+    }
+
+    /**
+     * Checks a case when request to delete Payment Token on the gateway side is failed.
+     */
+    public function testExecuteWithFailedRequest()
+    {
+        $storeId = 1;
+        $paymentMethodCode = 'vault_payment';
+        $errorMessage = 'Failed Request.';
+        $paymentToken = $this->getPaymentToken($paymentMethodCode);
+        $this->paymentTokenManagement->method('getByPublicHash')
+            ->with(self::$hash)
+            ->willReturn($paymentToken);
+        $executor = $this->getMockForAbstractClass(CommandManagerInterface::class);
+        $this->commandManagerPool->method('get')
+            ->with($paymentMethodCode)
+            ->willReturn($executor);
+
+        $this->resourceModel->method('delete')
+            ->with($paymentToken);
+        $this->storeResolver->method('getCurrentStoreId')
+            ->willReturn($storeId);
+        $executor->method('executeByCode')
+            ->willThrowException(new CommandException(__($errorMessage)));
+        $this->logger->method('critical')
+            ->with($errorMessage);
 
         $this->model->execute(self::$hash);
     }

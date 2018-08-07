@@ -9,6 +9,7 @@ namespace Magento\Vault\Model;
 
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NotFoundException;
+use Magento\Payment\Gateway\Command\CommandException;
 use Magento\Payment\Gateway\Command\CommandManagerPoolInterface;
 use Magento\Store\Api\StoreResolverInterface;
 use Magento\Vault\Api\PaymentTokenManagementInterface;
@@ -73,7 +74,7 @@ class TokenDeleter implements TokenDeleterInterface
      */
     public function execute(string $publicHash): void
     {
-        $paymentToken = $this->paymentTokenManagement->getByPublicHash($publicHash);
+        $paymentToken = $this->paymentTokenManagement->getByPublicHash($publicHash, 0);
         if ($paymentToken === null) {
             throw new NotFoundException(__('The payment token by the provided hash not found.'));
         }
@@ -87,13 +88,17 @@ class TokenDeleter implements TokenDeleterInterface
             throw new LocalizedException(__('Payment Token can\'t be deleted.'));
         }
 
-        $commandExecutor->executeByCode(
-            'delete_token',
-            null,
-            [
-                'paymentToken' => $paymentToken,
-                'storeId' => (int)$this->storeResolver->getCurrentStoreId()
-            ]
-        );
+        try {
+            $commandExecutor->executeByCode(
+                'delete_token',
+                null,
+                [
+                    'paymentToken' => $paymentToken,
+                    'storeId' => (int)$this->storeResolver->getCurrentStoreId()
+                ]
+            );
+        } catch (CommandException | NotFoundException $e) {
+            $this->logger->critical($e->getMessage());
+        }
     }
 }

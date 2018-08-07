@@ -15,7 +15,7 @@ $hash = '4ddf9ab5a15c76e23eb53856';
 
 /** @var PaymentTokenManagementInterface $tokenManagement */
 $tokenManagement = $objectManager->get(PaymentTokenManagementInterface::class);
-$paymentToken = $tokenManagement->getByPublicHash($hash);
+$paymentToken = $tokenManagement->getByPublicHash($hash, 0);
 if ($paymentToken !== null) {
     /** @var PaymentTokenResourceModel $resourceModel */
     $resourceModel = $objectManager->get(PaymentTokenResourceModel::class);
